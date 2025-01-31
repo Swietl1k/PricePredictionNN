@@ -18,11 +18,11 @@ def init_params(n: int) -> dict[str, np.ndarray]:
     return params
 
 
-def leaky_relu(x, alpha=0.01) -> np.ndarray:
+def relu(x, alpha=0.01) -> np.ndarray:
     return np.where(x > 0, x, alpha * x)
 
 
-def leaky_relu_derivative(x, alpha=0.01) -> np.ndarray:
+def relu_derivative(x, alpha=0.01) -> np.ndarray:
     dx = np.ones_like(x)
     dx[x < 0] = alpha
     return dx
