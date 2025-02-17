@@ -7,7 +7,7 @@ from train import train_loop, forward_pass
 if __name__ == "__main__":
     db_path = "../200k_cars.csv"
     df = pd.read_csv(db_path)
-    
+
     cleaned_df = clean_db(df)
     price_min = cleaned_df['price'].min()
     price_max = cleaned_df['price'].max()
@@ -19,7 +19,7 @@ if __name__ == "__main__":
     
     m, n = X_train.shape
     params = init_params(m)
-    trained_params = train_loop(data_div, params, epochs=150, learning_rate=0.1, batch_size=16)
+    trained_params = train_loop(data_div, params, epochs=1500, learning_rate=0.1, batch_size=16)
 
     test_cache = forward_pass(X_test, trained_params)
     Y_test_hat = test_cache['output']

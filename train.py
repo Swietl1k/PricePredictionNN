@@ -8,11 +8,11 @@ def forward_pass(X: np.ndarray, params: dict[str, np.ndarray]) -> dict[str, np.n
     W3, b3 = params['W3'], params['b3']
     
     Z1 = np.dot(W1, X) + b1
-    A1 = model_utils.relu(Z1)
+    A1 = model_utils.leaky_relu(Z1)
     #print(Z1.shape)
     
     Z2 = np.dot(W2, A1) + b2
-    A2 = model_utils.relu(Z2)
+    A2 = model_utils.leaky_relu(Z2)
     #print(Z2.shape)
     
     Z3 = np.dot(W3, A2) + b3
@@ -39,13 +39,13 @@ def back_prop(X: np.ndarray, Y: np.ndarray, cache: dict[str, np.ndarray], params
     
     # Gradients for layer 2
     dA2 = np.dot(params['W3'].T, dZ3)
-    dZ2 = dA2 * model_utils.relu_derivative(cache['Z2'])
+    dZ2 = dA2 * model_utils.leaky_relu_derivative(cache['Z2'])
     dW2 = (1/m) * np.dot(dZ2, cache['A1'].T)
     db2 = (1/m) * np.sum(dZ2, axis=1, keepdims=True)
     
     # Gradients for layer 1
     dA1 = np.dot(params['W2'].T, dZ2)
-    dZ1 = dA1 * model_utils.relu_derivative(cache['Z1'])
+    dZ1 = dA1 * model_utils.leaky_relu_derivative(cache['Z1'])
     dW1 = (1/m) * np.dot(dZ1, X.T)
     db1 = (1/m) * np.sum(dZ1, axis=1, keepdims=True)
 
@@ -60,7 +60,7 @@ def back_prop(X: np.ndarray, Y: np.ndarray, cache: dict[str, np.ndarray], params
 
 
 
-def train_loop(data_div: dict[str, np.ndarray], params: dict[str, np.ndarray], epochs: int, learning_rate: float, batch_size: int = 32) -> dict[str, np.ndarray]:
+def train_loop(data_div: dict[str, np.ndarray], params: dict[str, np.ndarray], epochs: int, learning_rate: float, batch_size: int = 16) -> dict[str, np.ndarray]:
     X_train, Y_train = data_div['X_train'], data_div['Y_train']
     X_test, Y_test = data_div['X_test'], data_div['Y_test']
     m = X_train.shape[1] 
